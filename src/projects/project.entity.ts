@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { ProjectStatus } from "./enums/project.status.enum";
 
 @Entity()
 export class Project {
@@ -14,6 +15,10 @@ export class Project {
     @Column()
     responsible: string;
 
-    @Column()
-    status: 'pending' | 'in_progress' | 'completed';
+    @Column({
+        type: 'enum',
+        enum: ProjectStatus,
+        default: ProjectStatus.PENDING,
+    })
+    status: ProjectStatus;
 }

@@ -1,5 +1,4 @@
-import { IsEnum, IsNotEmpty, IsString } from "class-validator";
-import { ProjectStatus } from "../enums/project.status.enum";
+import {  IsNotEmpty, IsString } from "class-validator";
 
 export class CreateProjectDto {
     @IsString()
@@ -13,7 +12,4 @@ export class CreateProjectDto {
     @IsString()
     @IsNotEmpty()
     responsible: string;
-
-    @IsEnum(ProjectStatus)
-    status: ProjectStatus;
 }
