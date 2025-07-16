@@ -16,8 +16,7 @@ export class Project {
     responsible: string;
 
     @Column({
-        type: 'enum',
-        enum: ProjectStatus,
+        type: 'varchar',
         default: ProjectStatus.PENDING,
     })
     status: ProjectStatus;

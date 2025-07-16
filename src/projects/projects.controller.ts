@@ -24,6 +24,6 @@ export class ProjectsController {
 
     @Delete(':id')
     remove(@Param('id') id: number) {
-        return this.remove(+id);
+        return this.projectsService.remove(+id);
     }
 }
