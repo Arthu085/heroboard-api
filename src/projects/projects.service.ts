@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Project } from "./project.entity";
 import { Repository } from "typeorm";
@@ -23,7 +23,13 @@ export class ProjectsService{
 
     
     async findOne(id: number): Promise<Project> {
-        const project = await this.projectRepository.findOneBy({ id });
+        const projectId = Number(id);
+
+        if(isNaN(projectId)) {
+            throw new BadRequestException('ID inválido')
+        }
+
+        const project = await this.projectRepository.findOneBy({ id: projectId });
 
         if (!project) {
         throw new NotFoundException(`Projeto com ID ${id} não encontrado`);
@@ -39,10 +45,7 @@ export class ProjectsService{
     }
 
     async remove(id: number): Promise<void> {
-        const result = await this.projectRepository.delete(id);
-
-        if(result.affected === 0) {
-            throw new NotFoundException(`Projeto com ID ${id} não encontrado`)
-        }
+        const project = await this.findOne(id);
+        await this.projectRepository.delete(project);
     }
 }
