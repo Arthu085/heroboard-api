@@ -6,9 +6,9 @@ import { ProjectModule } from './projects/project.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'sqlite',
-      database: 'database.sqlite', 
+      database: 'database.sqlite',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true, 
+      synchronize: true,
     }),
     ProjectModule,
   ],
