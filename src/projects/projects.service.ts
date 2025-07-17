@@ -39,6 +39,7 @@ export class ProjectsService {
 
     const queryBuilder = this.projectRepository
       .createQueryBuilder('project')
+      .orderBy('project.id', 'DESC')
       .skip(skip)
       .take(limit);
 
