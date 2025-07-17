@@ -55,12 +55,18 @@ export class ProjectsController {
         if (status) {
           return {
             message: 'Nenhum projeto para o filtro selecionado',
-            data: [],
+            data: {
+              data: [],
+              total: 0,
+            },
           };
         }
         return {
           message: 'Nenhum projeto cadastrado',
-          data: [],
+          data: {
+            data: [],
+            total: 0,
+          },
         };
       }
 
