@@ -21,8 +21,39 @@ export class ProjectsService {
     return this.projectRepository.save(project);
   }
 
-  async findAll(): Promise<Project[]> {
-    return this.projectRepository.find();
+  async findAll({
+    page,
+    limit,
+    status,
+  }: {
+    page: number;
+    limit: number;
+    status?: string;
+  }): Promise<{
+    data: Project[];
+    total: number;
+    page: number;
+    limit: number;
+  }> {
+    const skip = (page - 1) * limit;
+
+    const queryBuilder = this.projectRepository
+      .createQueryBuilder('project')
+      .skip(skip)
+      .take(limit);
+
+    if (status) {
+      queryBuilder.andWhere('project.status = :status', { status });
+    }
+
+    const [data, total] = await queryBuilder.getManyAndCount();
+
+    return {
+      data,
+      total,
+      page,
+      limit,
+    };
   }
 
   async findOne(id: number): Promise<Project> {

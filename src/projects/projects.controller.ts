@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create.project.dto';
@@ -38,11 +39,25 @@ export class ProjectsController {
   }
 
   @Get()
-  async findAll() {
+  async findAll(
+    @Query('page') page = 1,
+    @Query('limit') limit = 10,
+    @Query('status') status?: string,
+  ) {
     try {
-      const projects = await this.projectsService.findAll();
+      const projects = await this.projectsService.findAll({
+        page: Number(page),
+        limit: Number(limit),
+        status,
+      });
 
-      if (projects.length === 0) {
+      if (projects.data.length === 0) {
+        if (status) {
+          return {
+            message: 'Nenhum projeto para o filtro selecionado',
+            data: [],
+          };
+        }
         return {
           message: 'Nenhum projeto cadastrado',
           data: [],
